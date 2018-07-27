@@ -36,11 +36,20 @@ $downloads.GETENUMERATOR() | %{
                 Start-BitsTransfer -Source $Url -Destination $Dest -DisplayName $File  -ErrorAction Stop
 
                 Write-Host "Download $File Completed in: $((Get-Date).Subtract($time).Seconds) Seconds" -ForegroundColor Green
+
+                If (Test-Path $Dest){
+                           Write-Host -ForegroundColor Yellow "$(Get-Date -Format G) Start installation $File"
+                           Invoke-Expression ($Dest+" /q") -ErrorAction Stop
+                           Write-Host -ForegroundColor Yellow "$(Get-Date -Format G) End installation $File"
+            } 
+
+
+
             }
     Catch{
                 $ErrorMessage = $_.Exception.Message
                 Write-Host "Download $File $ErrorMessage" -ForegroundColor Red
             }         
 }
-
  
+
