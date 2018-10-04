@@ -10,7 +10,7 @@ $time = Get-Date
 $DestDownload = [Environment]::GetFolderPath("User") + "\Downloads"
 $downloads = @{
 
-    1 = @{File = 'app.exe'; Arg = ""; Source = '\\192.168.1.29\folder\install\appfolder'; Dest = '\appfolder'; }
+    1 = @{File = 'app.exe'; Arg = ""; Source = '\\192.168.1.100\folder\install\appfolder'; Dest = '\appfolder'; }
     2 = @{File = 'JumpDesktopConnect.exe'; Arg = ''; Source = 'https://jumpdesktop.com/downloads/connect/win'; Dest = ''}
     3 = @{File = 'firefox64inst.exe'; Arg = ''; Source = 'https://download.mozilla.org/?product=firefox-latest-ssl&os=win64&lang=pl'; Dest = ''}
     4 = @{File = '7z1805-x64.exe'; Arg = ''; Source = 'https://www.7-zip.org/a/7z1805-x64.exe'; Dest = ''}
@@ -28,7 +28,7 @@ $downloads.GETENUMERATOR()| Sort-Object name | % {
         if ($Dest -eq '') {
             $Dest = $DestDownload
             If (Test-Path $($Dest + '\' + $File)) {  
-                $mes = "1Do you want to remove file $File"
+                $mes = "Do you want to remove file $File"
                 $ans = $host.ui.PromptForChoice($caption, $mes, $Choices, 0)                        
                 If ($ans -eq 0) { 
                     Remove-Item $($Dest + '\' + $File) 
@@ -42,7 +42,7 @@ $downloads.GETENUMERATOR()| Sort-Object name | % {
         Else {
             $folders = Get-ChildItem -Name -Path $Source -Recurse
             If (Test-Path $Dest) {  
-                $mes = "2Do you want to remove file $Dest"
+                $mes = "Do you want to remove file $Dest"
                 $ans = $host.ui.PromptForChoice($caption, $mes, $Choices, 0)                        
                 If ($ans -eq 0) { 
                     Remove-Item $Dest -Force
